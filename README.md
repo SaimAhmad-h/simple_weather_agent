@@ -1,6 +1,5 @@
 ## 📓 View Full Notebook
-👉 [Click here to view the complete notebook](https://colab.research.google.com/drive/13Bd7saLEyucSSqECf0lIhfZpDQSyyYR0?usp=sharing)
-
+👉 [Click here to view the complete notebook](https://colab.research.google.com/drive/1WNW1PveTpn0XrW_pZgaixDHMwKvzaYma?usp=sharing)
 
 
 # 🌦️ **Simple Weather AI Agent**
