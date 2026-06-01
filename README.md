@@ -8,21 +8,22 @@
 
 Simple Weather AI Agent is a Python-based AI application that combines a Large Language Model (LLM) with a weather API to answer weather-related questions in natural language.
 
-The project uses the Groq API with the LLaMA 3.1 (8B) model to understand user requests and decide when to fetch real-time weather information from an external API.
+The project uses the Groq API and the LLaMA 3.1 (8B Instant) model to understand user queries, determine when weather information is required, call an external weather tool, and generate a final response based on real-time weather data.
 
-This project demonstrates the basic idea of tool-augmented AI systems, where an LLM can interact with external services to provide up-to-date information.
+This project demonstrates the fundamentals of AI agents, tool calling, and LLM integration with external APIs.
 
 ---
 
 ## ✨ Features
 
-* 🌦️ Real-time weather information
-* 🧠 Natural language query understanding
-* ⚙️ Weather API integration
-* 🤖 LLM-powered response generation
-* 📍 Location-based weather retrieval
-* 🐍 Simple Python implementation
-* 📚 Beginner-friendly project structure
+* 🌦️ Real-time weather information retrieval
+* 🤖 LLM-powered query understanding
+* 🛠️ Tool-calling architecture
+* 📍 Location-based weather lookup
+* ⚡ Groq-powered inference using LLaMA 3.1 (8B)
+* 🔄 Plan → Action → Observe → Output workflow
+* 🛡️ Robust API error handling
+* 🐍 Beginner-friendly Python implementation
 
 ---
 
@@ -30,27 +31,26 @@ This project demonstrates the basic idea of tool-augmented AI systems, where an 
 
 * Python
 * Groq API
-* LLaMA 3.1 (8B)
-* Requests Library
-* Weather API
+* LLaMA 3.1 8B Instant
+* WeatherAPI
+* Requests
+* JSON
 
 ---
 
-## 🧠 How It Works
+## 🧠 Agent Workflow
 
-The system follows a simple workflow:
+The agent follows a structured reasoning process:
 
-```text
 User Query
-     ↓
-LLM Analysis
-     ↓
-Weather Tool Call
-     ↓
-API Response
-     ↓
-Final Answer
-```
+↓
+Plan
+↓
+Action (Tool Call)
+↓
+Observe
+↓
+Final Output
 
 ### Step 1: User Query
 
@@ -58,105 +58,180 @@ The user asks a weather-related question.
 
 Example:
 
-```text
 What is the weather in Lahore today?
-```
 
-### Step 2: Query Understanding
+### Step 2: Planning
 
-The LLM analyzes the request and identifies that weather information is required.
-
-### Step 3: Weather API Call
-
-The application sends a request to the weather API to retrieve current weather data.
-
-### Step 4: Response Generation
-
-The retrieved data is formatted into a natural language response.
+The LLM analyzes the request and determines the required action.
 
 Example:
 
-```text
-The current weather in Lahore is 34°C with scattered clouds.
-```
+{
+"step": "plan",
+"content": "The user is interested in weather information for Lahore."
+}
+
+### Step 3: Action
+
+The LLM selects the appropriate tool and executes it.
+
+Example:
+
+{
+"step": "action",
+"function": "get_weather",
+"input": "Lahore"
+}
+
+### Step 4: Observation
+
+The weather tool returns the result.
+
+Example:
+
+{
+"step": "observe",
+"output": "34°C, Partly Cloudy"
+}
+
+### Step 5: Final Response
+
+The LLM generates a natural language answer.
+
+Example:
+
+The current weather in Lahore is 34°C with partly cloudy conditions.
 
 ---
 
-## 📂 Project Components
 
-### 1. LLM Module
+
+#### 1. LLM Module
 
 Responsible for:
 
 * Understanding user requests
-* Detecting weather-related intent
-* Generating responses
+* Generating plans
+* Selecting tools
+* Producing final responses
 
-### 2. Weather Tool
+#### 2. Weather Tool
 
 Responsible for:
 
-* Calling the weather API
-* Retrieving weather information
-* Returning structured weather data
+* Calling WeatherAPI
+* Fetching current weather data
+* Returning structured weather information
 
-### 3. Response Module
+#### 3. Agent Loop
 
-Combines API results with LLM-generated text to produce the final answer.
+Responsible for:
+
+* Processing planning steps
+* Executing actions
+* Handling observations
+* Producing final output
 
 ---
 
 ## 💬 Example Queries
 
-```text
-What is the weather in Lahore?
+* What is the weather in Lahore?
+* Tell me the weather in Islamabad.
+* Is it raining in Karachi?
+* How hot is Faisalabad today?
+* What is the current weather in New York?
+
+---
+
+## 🛡️ Error Handling
+
+The weather tool includes robust exception handling for:
+
+* Request timeouts
+* Connection failures
+* HTTP errors
+* Invalid API responses
+* Unexpected runtime errors
+
+Example responses:
+
+* Weather data unavailable (timeout error)
+* Weather data unavailable (connection error)
+* Weather data unavailable (HTTP error)
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd weather-agent
 ```
 
-```text
-Is it raining in Karachi?
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
 ```
 
-```text
-Tell me the weather in Islamabad.
+### 3. Configure API Keys
+
+Add your API keys inside the code:
+
+```python
+client = Groq(
+    api_key="YOUR_GROQ_API_KEY"
+)
 ```
 
-```text
-How hot is Faisalabad today?
+```python
+api_key = "YOUR_WEATHERAPI_KEY"
+```
+
+### 4. Run the Project
+
+```bash
+python main.py
 ```
 
 ---
 
 ## 📌 Current Scope
 
-This project currently focuses on weather-related questions only.
-
-Supported functionality:
+Currently supported:
 
 * Current weather lookup
-* Location-based weather information
+* City-based weather retrieval
 * Natural language weather queries
+* Single-tool AI agent workflow
 
 ---
 
 ## ⚠️ Limitations
 
-* Depends on external weather APIs
-* Requires internet access
-* Supports a limited number of tools
-* May produce incorrect responses if API data is unavailable
+* Requires internet connectivity
+* Depends on external APIs
+* Supports weather functionality only
+* Accuracy depends on API availability and data quality
 
 ---
 
 ## 🔮 Future Improvements
 
-Possible future enhancements include:
+Potential enhancements include:
 
+* Weather forecast support
 * Search tool integration
-* Calculator tools
-* Memory support
-* Multi-tool workflows
+* Calculator tool integration
+* Multi-tool agents
+* Conversation memory
 * Voice interaction
-* Graphical user interface (GUI)
+* Web interface
+* Streamlit dashboard
+* Multi-city comparisons
 
 ---
 
@@ -166,11 +241,24 @@ This project helps beginners understand:
 
 * LLM API integration
 * Tool calling concepts
+* AI agent fundamentals
 * Weather API usage
-* AI-assisted response generation
-* Basic AI agent workflows
+* Prompt engineering
+* Structured JSON outputs
+* External API integration
+* Agent execution loops
 
 ---
+
+## 📜 License
+
+This project is intended for educational and learning purposes.
+
+---
+
+## ⭐ Conclusion
+
+Simple Weather AI Agent demonstrates how a Large Language Model can interact with external tools to access real-time information. The project provides a beginner-friendly introduction to AI agents, tool calling, and API-integrated LLM applications using Python, Groq, and WeatherAPI.
 
 ## 📓 Notebook
 
